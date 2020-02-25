@@ -54,6 +54,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="IllegalATypeValueException.cs" />
+    <Compile Include="IllegalLabelException.cs" />
+    <Compile Include="InvalidCommandType.cs" />
     <Compile Include="InvalidCompException.cs" />
     <Compile Include="InvalidDestinationException.cs" />
     <Compile Include="InvalidJumpException.cs" />

@@ -41,13 +41,12 @@ namespace cmaftei_Assembler_CS4100
 
             /*[CHECK!] :=Symbol Table Pass Through := Go through the .asm file and find all Labels (label)
                 and place them in symbol table. Remove these lines after processing.*/
-            string[] binaryRepresentation = parser.ConstructSymbolTable();
+            parser.ConstructSymbolTable();
 
             //[ ] := Second Pass (Use the Symbol Table to go through a second time and jump when appropriate)
-            //binaryRepresentation = SecondPass(binaryRepresentation);
 
             //Return the Binary Representation of the .asm file.
-            return binaryRepresentation;
+            return SecondPass();
         }
 
         //Removes all white space, blank lines, and comments from .asm file to produce pure hack assembly.
@@ -89,14 +88,62 @@ namespace cmaftei_Assembler_CS4100
         }
 
         //Parses clean code to produce a binary file by parsing and translating via the CODE and PARSER class
-        private string[] SecondPass(string[] asmFile)
+        private string[] SecondPass()
         {
+            List<string> binaryConversion = new List<string>();
             for (int i = 0; i < this.parser.getAsmFile().Length; i++) //iterate through each line in parser.
             {
+                try
+                {
+                    if (this.parser.CommmandType() == "A")
+                    {
+                        try
+                        {
+                            binaryConversion.Add(this.parser.symbol());
+                        }
+                        catch(IllegalATypeValueException e)
+                        {
+                            binaryConversion.Add("Line[" + i +"]: " + e.Message);
+                        }
+                    }
 
+                    if (this.parser.CommmandType() == "C")
+                    {
+                        try
+                        {
+                            binaryConversion.Add("111" + this.parser.comp() + this.parser.dest() + this.parser.jump());
+                        }
+                        catch (InvalidDestinationException e)
+                        {
+                            binaryConversion.Add("Line[" + i + "]: " + e.Message);
+                        }
+                        catch (InvalidCompException e)
+                        {
+                            binaryConversion.Add("Line[" + i + "]: " + e.Message);
+                        }
+                        catch (InvalidJumpException e)
+                        {
+                            binaryConversion.Add("Line[" + i + "]: " + e.Message);
+                        }
+                    }
+                }
+                catch (InvalidCommandType e)
+                {
+                    binaryConversion.Add("Line[" + i + "]: " + e.Message);
+                }
+
+                //Checks if there are more commands. If there are not, then break out of the loop.
+                if (this.parser.hasMoreCommands(i))
+                {
+                    this.parser.advance(i);
+                }
+                else
+                {
+                    break;
+                }
             }
-            //temporary placeholder.
-            return new string[0];
+            return this.parser.getWarnings().Concat(binaryConversion).ToArray();
+            //return binaryConversion.ToArray();
         }
     }
 }

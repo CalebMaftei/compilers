@@ -61,7 +61,7 @@
             this.richTxt_Binary.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTxt_Binary.Location = new System.Drawing.Point(708, 68);
             this.richTxt_Binary.Name = "richTxt_Binary";
-            this.richTxt_Binary.Size = new System.Drawing.Size(448, 543);
+            this.richTxt_Binary.Size = new System.Drawing.Size(473, 543);
             this.richTxt_Binary.TabIndex = 2;
             this.richTxt_Binary.Text = "";
             // 
@@ -79,7 +79,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(754, 26);
+            this.label2.Location = new System.Drawing.Point(767, 26);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(369, 29);
             this.label2.TabIndex = 4;
@@ -102,7 +102,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.ClientSize = new System.Drawing.Size(1178, 644);
+            this.ClientSize = new System.Drawing.Size(1224, 644);
             this.Controls.Add(this.btn_showSymbolTable);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
