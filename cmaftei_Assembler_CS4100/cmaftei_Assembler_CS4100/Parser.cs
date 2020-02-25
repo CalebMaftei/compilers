@@ -238,7 +238,8 @@ namespace cmaftei_Assembler_CS4100
                     string tempStr = str.Substring(1, str.IndexOf(")") - 1);
                     try
                     {
-                        if (str.Substring(str.IndexOf(")")).Length > 0)
+                        string comment = str.Substring(str.IndexOf(")") + 1);
+                        if(comment.Length > 0)
                         {
                             throw new IllegalLabelException(str);
                         }

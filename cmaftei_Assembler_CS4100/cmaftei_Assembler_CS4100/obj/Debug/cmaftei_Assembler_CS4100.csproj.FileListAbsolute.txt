@@ -8,3 +8,13 @@ C:\Users\caleb\software_developing\C#\compiler_projects\hack_assembler\cmaftei_A
 C:\Users\caleb\software_developing\C#\compiler_projects\hack_assembler\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\obj\Debug\cmaftei_Assembler_CS4100.csproj.CoreCompileInputs.cache
 C:\Users\caleb\software_developing\C#\compiler_projects\hack_assembler\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\obj\Debug\cmaftei_Assembler_CS4100.exe
 C:\Users\caleb\software_developing\C#\compiler_projects\hack_assembler\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\obj\Debug\cmaftei_Assembler_CS4100.pdb
+C:\Users\caleb\software_developing\C#\compilers\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\bin\Debug\cmaftei_Assembler_CS4100.exe.config
+C:\Users\caleb\software_developing\C#\compilers\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\bin\Debug\cmaftei_Assembler_CS4100.exe
+C:\Users\caleb\software_developing\C#\compilers\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\bin\Debug\cmaftei_Assembler_CS4100.pdb
+C:\Users\caleb\software_developing\C#\compilers\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\obj\Debug\cmaftei_Assembler_CS4100.csprojAssemblyReference.cache
+C:\Users\caleb\software_developing\C#\compilers\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\obj\Debug\cmaftei_Assembler_CS4100.Form_Cmaftei_Assembler.resources
+C:\Users\caleb\software_developing\C#\compilers\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\obj\Debug\cmaftei_Assembler_CS4100.Properties.Resources.resources
+C:\Users\caleb\software_developing\C#\compilers\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\obj\Debug\cmaftei_Assembler_CS4100.csproj.GenerateResource.cache
+C:\Users\caleb\software_developing\C#\compilers\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\obj\Debug\cmaftei_Assembler_CS4100.csproj.CoreCompileInputs.cache
+C:\Users\caleb\software_developing\C#\compilers\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\obj\Debug\cmaftei_Assembler_CS4100.exe
+C:\Users\caleb\software_developing\C#\compilers\cmaftei_Assembler_CS4100\cmaftei_Assembler_CS4100\obj\Debug\cmaftei_Assembler_CS4100.pdb
