@@ -16,15 +16,16 @@ namespace cmaftei_Assembler_CS4100
         //Creates an object that sifts through code to produce the binary values.
         public Code() //0 param constructor
         {
+            //NOTE: THE SPACES BETWEEN THE BINARY VALUES ARE MEANT TO HAVE SPACES. ITS FOR FORMATTING PURPOSES.
             // Destination Dictionary Created
-            this.destDictionary.Add("null", "000");
-            this.destDictionary.Add("M", "001");
-            this.destDictionary.Add("D", "010");
-            this.destDictionary.Add("MD", "011");
-            this.destDictionary.Add("A", "100");
-            this.destDictionary.Add("AM", "101");
-            this.destDictionary.Add("AD", "110");
-            this.destDictionary.Add("AMD", "111");
+            this.destDictionary.Add("null", "00 0");
+            this.destDictionary.Add("M", "00 1");
+            this.destDictionary.Add("D", "01 0");
+            this.destDictionary.Add("MD", "01 1");
+            this.destDictionary.Add("A", "10 0");
+            this.destDictionary.Add("AM", "10 1");
+            this.destDictionary.Add("AD", "11 0");
+            this.destDictionary.Add("AMD", "11 1");
 
             //Jump Directory Created
             this.jumpDictionary.Add("null", "000");
@@ -37,41 +38,42 @@ namespace cmaftei_Assembler_CS4100
             this.jumpDictionary.Add("JMP", "111");
 
             //Comp Directory Created
-            this.compDictionary.Add("0", "101010");
-            this.compDictionary.Add("1", "111111");
-            this.compDictionary.Add("-1", "111010");
-            this.compDictionary.Add("D", "001100");
-            this.compDictionary.Add("A", "110000");
-            this.compDictionary.Add("M", "110000"); //a=1
-            this.compDictionary.Add("!D", "001101");
-            this.compDictionary.Add("!A", "110001");
-            this.compDictionary.Add("!M", "110001"); //a=1
-            this.compDictionary.Add("-D", "001111");
-            this.compDictionary.Add("-A", "110011");
-            this.compDictionary.Add("-M", "110011"); //a=1
-            this.compDictionary.Add("D+1", "011111");
-            this.compDictionary.Add("1+D", "011111");
-            this.compDictionary.Add("A+1", "110111");
-            this.compDictionary.Add("1+A", "110111");
-            this.compDictionary.Add("M+1", "110111"); //a=1
-            this.compDictionary.Add("1+M", "110111"); //a=1
-            this.compDictionary.Add("D-1", "001110");
-            this.compDictionary.Add("A-1", "110010");
-            this.compDictionary.Add("M-1", "110010"); //a=1
-            this.compDictionary.Add("D+A", "000010");
-            this.compDictionary.Add("D+M", "000010"); //a=1
-            this.compDictionary.Add("D-A", "010011");
-            this.compDictionary.Add("D-M", "010011"); //a=1
-            this.compDictionary.Add("A-D", "000111");
-            this.compDictionary.Add("M-D", "000111"); //a=1
-            this.compDictionary.Add("D&A", "000000");
-            this.compDictionary.Add("A&D", "000000");
-            this.compDictionary.Add("D&M", "000000"); //a=1
-            this.compDictionary.Add("M&D", "000000"); //a=1
-            this.compDictionary.Add("D|A", "010101");
-            this.compDictionary.Add("A|D", "010101");
-            this.compDictionary.Add("D|M", "010101"); //a=1
-            this.compDictionary.Add("M|D", "010101"); //a=1
+            this.compDictionary.Add("0",   "0 1010 10");
+            this.compDictionary.Add("1",   "0 1111 11");
+            this.compDictionary.Add("-1",  "0 1110 10");
+            this.compDictionary.Add("D",   "0 0011 00");
+            this.compDictionary.Add("A",   "0 1100 00");
+            this.compDictionary.Add("M",   "1 1100 00"); //a=1
+            this.compDictionary.Add("!D",  "0 0011 01");
+            this.compDictionary.Add("!A",  "0 1100 01");
+            this.compDictionary.Add("!M",  "1 1100 01"); //a=1
+            this.compDictionary.Add("-D",  "0 0011 11");
+            this.compDictionary.Add("-A",  "0 1100 11");
+            this.compDictionary.Add("-M",  "1 1100 11"); //a=1
+            this.compDictionary.Add("D+1", "0 0111 11");
+            this.compDictionary.Add("1+D", "0 0111 11");
+            this.compDictionary.Add("A+1", "0 1101 11");
+            this.compDictionary.Add("1+A", "0 1101 11");
+            this.compDictionary.Add("M+1", "1 1101 11"); //a=1
+            this.compDictionary.Add("1+M", "1 1101 11"); //a=1
+            this.compDictionary.Add("D-1", "0 0011 10");
+            this.compDictionary.Add("A-1", "0 1100 10");
+            this.compDictionary.Add("M-1", "1 1100 10"); //a=1
+            this.compDictionary.Add("D+A", "0 0000 10");
+            this.compDictionary.Add("D+M", "1 0000 10"); //a=1
+            this.compDictionary.Add("M+D", "1 0000 10"); //a=1
+            this.compDictionary.Add("D-A", "0 0100 11");
+            this.compDictionary.Add("D-M", "1 0100 11"); //a=1
+            this.compDictionary.Add("A-D", "0 0001 11");
+            this.compDictionary.Add("M-D", "1 0001 11"); //a=1
+            this.compDictionary.Add("D&A", "0 0000 00");
+            this.compDictionary.Add("A&D", "0 0000 00");
+            this.compDictionary.Add("D&M", "1 0000 00"); //a=1
+            this.compDictionary.Add("M&D", "1 0000 00"); //a=1
+            this.compDictionary.Add("D|A", "0 0101 01");
+            this.compDictionary.Add("A|D", "0 0101 01");
+            this.compDictionary.Add("D|M", "1 0101 01"); //a=1
+            this.compDictionary.Add("M|D", "1 0101 01"); //a=1
         }
         
         //based on the mneumonic passed in, this looks through all possible values. If it doesn't exist, it throws an error.

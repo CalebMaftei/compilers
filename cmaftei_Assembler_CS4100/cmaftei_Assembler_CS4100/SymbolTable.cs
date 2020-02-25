@@ -10,7 +10,8 @@ namespace cmaftei_Assembler_CS4100
     public class SymbolTable
     {
         //Data Object that will hold the table.
-        Dictionary<string, int> symbolTable = new Dictionary<string, int>();
+        private Dictionary<string, int> symbolTable = new Dictionary<string, int>();
+        private int nextAvailableRamLocation = 16;
 
         public SymbolTable()
         {
@@ -23,16 +24,22 @@ namespace cmaftei_Assembler_CS4100
         {
             symbolTable.Add(symbol, address);
         }
-
-        public bool contains()
+        
+        //Overrided operation to allow only 1 parameter... this is used for variables in the .asm code.
+        public void addEntry(string symbol)
         {
-            return true; //Might not need to do this if Dictionary already possesses a method.
+            symbolTable.Add(symbol, this.nextAvailableRamLocation);
+            this.nextAvailableRamLocation++;
+        }
+
+        public bool contains(string address)
+        {
+            return symbolTable.ContainsKey(address);
         }
 
         public int getAddress(string symbol)
         {
-            //Returns the address of the Symbol Table Give the Symbol associated.
-            return 0;
+            return this.symbolTable[symbol];
         }
 
         private void initializeTable()
