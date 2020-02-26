@@ -14,6 +14,7 @@ namespace cmaftei_Assembler_CS4100
         private SymbolTable symbolTable = new SymbolTable();
         private Code code = new Code();
         private List<string> warnings = new List<string>();
+        private int numberOfUncountedLines = 0;
 
         //Constructor - Requires the .asm file to parse anything.
         public Parser(string[] newAsmFile)
@@ -268,18 +269,25 @@ namespace cmaftei_Assembler_CS4100
                         }
 
                         //if label is legal, don't throw a warning, and add it to table. i+1 because ROM starts at 1, not 0.
-                        this.symbolTable.addEntry(tempStr, i+1);
+                        this.symbolTable.addEntry(tempStr, i - this.numberOfUncountedLines);
+                        this.numberOfUncountedLines++;
                     }
                     catch (IllegalLabelException e)
                     {
                         //if illegal label, throw a warning and add to table. i+1 because ROM starts at 1, not 0.
                         this.warnings.Add("Line[" + i + "]: WARNING -" + e.Message);
-                        this.symbolTable.addEntry(tempStr, i+1);
+                        this.symbolTable.addEntry(tempStr, i - this.numberOfUncountedLines);
+                        this.numberOfUncountedLines++;
                     }
                     catch (IllegalLabelRedefinitionException e)
                     {
                         this.warnings.Add("Line[" + i + "]: WARNING -" + e.Message);
                     }
+                }
+                //Check if 
+                else if(String.IsNullOrEmpty(this.asmFile[i]) || (this.asmFile[i][0] == '/' && this.asmFile[i][1] == '/'))
+                {
+                    this.numberOfUncountedLines++;
                 }
             }
         }

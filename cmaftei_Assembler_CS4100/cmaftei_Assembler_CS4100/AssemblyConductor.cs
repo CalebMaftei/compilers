@@ -20,14 +20,8 @@ namespace cmaftei_Assembler_CS4100
         //Takes the asmFile contents and converts them into the contents of a .hack file.
         public string[] Assemble()
         {
-            //Creates the Symbol Table
-            try
-            {
-                parser.ConstructSymbolTable();
-            }
-            catch(IllegalLabelRedefinitionException e)
-            {
-            }
+            //Creates the Symbol Table -- Equivalent to the first pass
+            parser.ConstructSymbolTable();
             
 
             //Returns the converted Binary -- For spacing, and readability, this is a method.
