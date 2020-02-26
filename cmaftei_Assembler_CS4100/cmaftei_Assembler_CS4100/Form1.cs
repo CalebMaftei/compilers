@@ -33,7 +33,7 @@ namespace cmaftei_Assembler_CS4100
                 asmFile = richTxt_asmFileContents.Lines;
                 assemblyConductor = new AssemblyConductor(asmFile);
 
-                richTxt_Binary.Lines = assemblyConductor.assemble();
+                richTxt_Binary.Lines = assemblyConductor.Assemble();
 
                 btn_showSymbolTable.Enabled = true;
             }
@@ -41,7 +41,7 @@ namespace cmaftei_Assembler_CS4100
 
         private void btn_showSymbolTable_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(assemblyConductor.getSymbolTable().ToString());
+            MessageBox.Show(assemblyConductor.GetSymbolTable().ToString());
         }
     }
 }

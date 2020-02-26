@@ -18,7 +18,7 @@ namespace cmaftei_Assembler_CS4100.Tests
             string[] fileWithOutWhiteSpace = new string[3] {"abcde", "aaaaabbbccccd", "mailbox"};
             AssemblyConductor assemblyConductor = new AssemblyConductor(fileWithWhiteSpace);
 
-            string[] filteredFile = assemblyConductor.assemble();
+            string[] filteredFile = assemblyConductor.Assemble();
 
             Assert.Equal(3, filteredFile.Length);
             Assert.Equal("abcde", filteredFile[0]);

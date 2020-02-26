@@ -22,7 +22,14 @@ namespace cmaftei_Assembler_CS4100
         //Adds a new entry into the system table
         public void addEntry(string symbol, int address)
         {
-            symbolTable.Add(symbol, address);
+            try
+            {
+                symbolTable.Add(symbol, address);
+            }
+            catch(ArgumentException)
+            {
+                throw new IllegalLabelRedefinitionException(symbol, this.symbolTable[symbol]);
+            }
         }
         
         //Overrided operation to allow only 1 parameter... this is used for variables in the .asm code.

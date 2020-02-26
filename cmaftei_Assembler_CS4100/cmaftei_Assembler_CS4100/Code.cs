@@ -22,10 +22,18 @@ namespace cmaftei_Assembler_CS4100
             this.destDictionary.Add("M", "00 1");
             this.destDictionary.Add("D", "01 0");
             this.destDictionary.Add("MD", "01 1");
+            this.destDictionary.Add("DM", "01 1");
             this.destDictionary.Add("A", "10 0");
             this.destDictionary.Add("AM", "10 1");
+            this.destDictionary.Add("MA", "10 1");
             this.destDictionary.Add("AD", "11 0");
+            this.destDictionary.Add("DA", "11 0");
             this.destDictionary.Add("AMD", "11 1");
+            this.destDictionary.Add("ADM", "11 1");
+            this.destDictionary.Add("DAM", "11 1");
+            this.destDictionary.Add("DMA", "11 1");
+            this.destDictionary.Add("MAD", "11 1");
+            this.destDictionary.Add("MDA", "11 1");
 
             //Jump Directory Created
             this.jumpDictionary.Add("null", "000");
@@ -74,6 +82,9 @@ namespace cmaftei_Assembler_CS4100
             this.compDictionary.Add("A|D", "0 0101 01");
             this.compDictionary.Add("D|M", "1 0101 01"); //a=1
             this.compDictionary.Add("M|D", "1 0101 01"); //a=1
+
+            //Extended Libraries
+            //INSERT ALL NEW COMPS HERE.
         }
         
         //based on the mneumonic passed in, this looks through all possible values. If it doesn't exist, it throws an error.
