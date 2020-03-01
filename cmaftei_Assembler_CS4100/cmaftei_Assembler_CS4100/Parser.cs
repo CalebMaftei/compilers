@@ -29,11 +29,13 @@ namespace cmaftei_Assembler_CS4100
             return this.asmFile;
         }
 
+        //Getter that retrieves symbol table
         public SymbolTable GetSymbolTable()
         {
             return this.symbolTable;
         }
-
+        
+        //Getter that retrieves all warnings found while parsing
         public List<string> GetWarnings()
         {
             return warnings;
@@ -65,6 +67,10 @@ namespace cmaftei_Assembler_CS4100
             {
                 return "A";
             }
+            else if(this.currentInstruction.Contains(".EQU"))
+            {
+                return "EQU";
+            }
             //Since the Label Instruction is created via the Assembly Conductor Class, the only other possible instruction is C type.
             else if (this.currentInstruction.Contains(";") || this.currentInstruction.Contains("="))
             {
@@ -92,11 +98,13 @@ namespace cmaftei_Assembler_CS4100
             string binary = "";
             string label = this.currentInstruction.Substring(this.currentInstruction.IndexOf("@") + 1);
 
+            //If Label is empty, throw an exception
             if (label == "")
             {
                 throw new IllegalATypeValueException(label, Array.IndexOf(this.asmFile, this.currentInstruction) + 1);
             }
-            else if (this.symbolTable.contains(label))
+            //If the symbol is already in the table, fetch th value
+            else if (this.symbolTable.contains(label)) 
             {
                 binary = Convert.ToString(this.symbolTable.getAddress(label), 2);
                 for (int i = 0; i < 16 - binary.Length; i++)
@@ -105,6 +113,7 @@ namespace cmaftei_Assembler_CS4100
                 }
                 symbol += binary;
             }
+            //If the symbol is an integer, convert it to binary
             else if (int.TryParse(label, out int labelNum))
             {
                 if((label.Contains("0") || label.Contains("1")) && (!label.Contains("2") && !label.Contains("3") && !label.Contains("4")
@@ -125,12 +134,14 @@ namespace cmaftei_Assembler_CS4100
                 }
                 symbol += binary;
             }
-            else if (label.Length > 2) //implying that there has to exist at least 3 character => 0x or 0b (if the label is 0x____) this will bomb out.
+            //If the symbol has a length > 2 => it could be a binary value, or a Hex value ( 0x_ or 0b_ )
+            else if (label.Length > 2)
             {
+                /*
                 if(label.Substring(2).Length == 0)
                 {
-                    throw new IllegalATypeValueException(label, Array.IndexOf(this.asmFile, this.currentInstruction) + 1); //As no value following the hex or bin identifier is a blank value.
-                }
+                    throw new IllegalATypeValueException(label, Array.IndexOf(this.asmFile, this.currentInstruction) + 1);
+                }*/
                 //hex
                 if (label.Substring(0, 2).ToLower() == "0x" && int.TryParse(label.Substring(2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out int labelHexNum))
                 {
@@ -245,14 +256,83 @@ namespace cmaftei_Assembler_CS4100
         {
             for(int i = 0; i < this.asmFile.Length; i++)
             {
-                //Removes all whitespace
-                this.asmFile[i] = this.asmFile[i].Replace(" ", "");
-
                 //Removes all comments, if they exist, that are in-line
-                if (this.asmFile[i].Contains('/'))
+                if (this.asmFile[i].Contains("//"))
                 {
                     this.asmFile[i] = this.asmFile[i].Substring(0, this.asmFile[i].IndexOf("/"));
                 }
+
+                if (this.asmFile[i].Contains(".EQU"))
+                {
+                    //Command is EQU, check if format is correct.
+                    try
+                    {
+                        string tempString = this.asmFile[i].Trim();
+                        string[] equ = tempString.Split(' ');
+                        int value = 0;
+
+                        //If the value has more than 2 characters, could be hex or bin.
+                        if(equ[2].Length > 2)
+                        {
+                            //EQU is a hex value
+                            if (equ[2].Substring(0, 2).ToLower() == "0x")
+                            {
+                                if (!int.TryParse(equ[2].Substring(2), System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out value))
+                                {
+                                    throw new Exception(equ[2] + " is not an appropriate hex value");
+                                }
+                                this.symbolTable.addEntry(equ[1], value);
+                                this.numberOfUncountedLines++;
+                                continue;
+                            }
+                            //EQU is a binary value
+                            else if (equ[2].Substring(0, 2).ToLower() == "0b")
+                            {
+                                ///binary = equ[2].Substring(2);
+                                if (equ[2].Substring(2).Length < 0 || equ[2].Substring(2).Length > 15)
+                                {
+                                    //If the label is negative, or larger than 15 bits, then, send an error.
+                                    throw new Exception(String.Format(" \"{0}\" is an illegal value. Label values must be less than 16 bits, and non-negative.",equ[2]));
+                                }
+                                else if(equ[2].Substring(2).Contains("2") || equ[2].Substring(2).Contains("3") || equ[2].Substring(2).Contains("4") || equ[2].Substring(2).Contains("5") || equ[2].Substring(2).Contains("6") || equ[2].Substring(2).Contains("7") || equ[2].Substring(2).Contains("8") || equ[2].Substring(2).Contains("9"))
+                                {
+                                    throw new Exception(equ[2] + " is not an appropriate binary value");
+                                }
+                                value = BinaryConvertToInt(equ[2].Substring(2));
+                                this.symbolTable.addEntry(equ[1], value);
+                                this.numberOfUncountedLines++;
+                                continue;
+                            }
+                        }
+
+                        //Value is not an integer
+                        if(!int.TryParse(equ[2], out value))
+                        {
+                            this.numberOfUncountedLines++;
+                            throw new Exception("\"" + equ[2] + "\"" + " is not an appropriate integer value");
+                        }
+
+                        value = int.Parse(equ[2]);
+
+                        //If value is negative or zero, throw an exception.
+                        if (value > 32767 || value < 0)
+                        {
+                            throw new Exception(equ[2] + " has to be a non-negative value and less than 32767.");
+                        }
+                        this.symbolTable.addEntry(equ[1], value);
+                        this.numberOfUncountedLines++;
+                        continue;
+                    }
+                    catch(Exception e)
+                    {
+                        this.warnings.Add("Line[" + i + "]: ERROR -- " + e.Message);
+                        this.numberOfUncountedLines++;
+                        continue;
+                    }
+                }
+
+                //Removes all whitespace... This is done after 
+                this.asmFile[i] = this.asmFile[i].Replace(" ", "");
 
                 //If line begins with "(" it is a label.
                 if (this.asmFile[i].IndexOf("(") == 0) 
@@ -275,13 +355,13 @@ namespace cmaftei_Assembler_CS4100
                     catch (IllegalLabelException e)
                     {
                         //if illegal label, throw a warning and add to table. i+1 because ROM starts at 1, not 0.
-                        this.warnings.Add("Line[" + i + "]: WARNING -" + e.Message);
+                        this.warnings.Add("Line[" + i + "]: WARNING -- " + e.Message);
                         this.symbolTable.addEntry(tempStr, i - this.numberOfUncountedLines);
                         this.numberOfUncountedLines++;
                     }
                     catch (IllegalLabelRedefinitionException e)
                     {
-                        this.warnings.Add("Line[" + i + "]: WARNING -" + e.Message);
+                        this.warnings.Add("Line[" + i + "]: WARNING -- " + e.Message);
                     }
                 }
                 //Check if 
@@ -300,6 +380,17 @@ namespace cmaftei_Assembler_CS4100
             {
                 this.currentInstruction = this.currentInstruction.Substring(0, this.currentInstruction.IndexOf("/"));
             }
+        }
+
+        //Converts a Binary number into a Decimal Value
+        private int BinaryConvertToInt(string binaryNum)
+        {
+            double returnValue = 0;
+            for(int i = 0; i < binaryNum.Length; i++)
+            {
+                returnValue += int.Parse(binaryNum[(binaryNum.Length-1)- i].ToString())*Math.Pow(2,i);
+            }
+            return Convert.ToInt32(returnValue);
         }
 
         //END OF FILE
@@ -333,7 +424,7 @@ namespace cmaftei_Assembler_CS4100
                     }
                     catch (IllegalLabelException e)
                     {
-                        this.warnings.Add("Line[" + index + "]: WARNING -" + e.Message);
+                        this.warnings.Add("Line[" + index + "]: WARNING -- " + e.Message);
                         this.symbolTable.addEntry(tempStr, index);
                     }
                 }

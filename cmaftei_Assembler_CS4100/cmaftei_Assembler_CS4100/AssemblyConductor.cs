@@ -12,9 +12,16 @@ namespace cmaftei_Assembler_CS4100
         //Objects
         private Parser parser;
  
+        //Constructor
         public AssemblyConductor(string[] newAsmFile)
         {
             this.parser = new Parser(newAsmFile);
+        }
+
+        //Retrieves Symbol Table
+        public SymbolTable GetSymbolTable()
+        {
+            return this.parser.GetSymbolTable();
         }
 
         //Takes the asmFile contents and converts them into the contents of a .hack file.
@@ -96,12 +103,6 @@ namespace cmaftei_Assembler_CS4100
             }
             return this.parser.GetWarnings().Concat(binaryConversion).ToArray();
             //return binaryConversion.ToArray();
-        }
-
-        //Retrieves Symbol Table
-        public SymbolTable GetSymbolTable()
-        {
-            return this.parser.GetSymbolTable();
         }
 
         //END OF FILE

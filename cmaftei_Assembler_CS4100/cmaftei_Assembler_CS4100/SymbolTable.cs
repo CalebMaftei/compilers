@@ -28,7 +28,7 @@ namespace cmaftei_Assembler_CS4100
             }
             catch(ArgumentException)
             {
-                throw new IllegalLabelRedefinitionException(symbol, this.symbolTable[symbol]);
+                throw new IllegalLabelRedefinitionException(symbol);
             }
         }
         

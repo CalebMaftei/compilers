@@ -14,8 +14,8 @@ namespace cmaftei_Assembler_CS4100
 
         }
 
-        public IllegalLabelRedefinitionException(string symbol, int line)
-        : base (String.Format("IllegalLabel: {0}. It has already been defined on line[{1}]", symbol, line))
+        public IllegalLabelRedefinitionException(string symbol)
+        : base (String.Format("IllegalLabel: {0}. {0} has already been defined.", symbol))
         {
 
         }
