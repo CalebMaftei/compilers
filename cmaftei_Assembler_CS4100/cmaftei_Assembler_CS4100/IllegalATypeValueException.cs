@@ -14,8 +14,8 @@ namespace cmaftei_Assembler_CS4100
 
         }
 
-        public IllegalATypeValueException(string command)
-        : base(String.Format("Illegal A-Type Command: @{0}. Value must be non-negative, not null, and/or less than 16 bits long (in binary).", command))
+        public IllegalATypeValueException(string command, int line)
+        : base(String.Format("Line[{1}]: ERROR -- Illegal A-Type Command: @{0}. Value must be non-negative, not null, and/or less than 16 bits long (in binary).", command, line))
         {
 
         }

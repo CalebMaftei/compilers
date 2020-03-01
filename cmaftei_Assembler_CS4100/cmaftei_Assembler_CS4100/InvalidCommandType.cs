@@ -15,7 +15,7 @@ namespace cmaftei_Assembler_CS4100
         }
 
         public InvalidCommandType(string command, int index)
-        : base(String.Format("Instruction: {0}, Located At: {1}, is invalid. Review C-Type, A-Type, and L-Type Semantics.", command, index ))
+        : base(String.Format("Line[{1}]: ERROR -- Invalid Command: {0}. Review C-Type, A-Type, and L-Type Semantics.", command, index ))
         {
 
         }

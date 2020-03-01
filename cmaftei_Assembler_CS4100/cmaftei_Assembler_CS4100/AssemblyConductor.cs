@@ -11,45 +11,109 @@ namespace cmaftei_Assembler_CS4100
     {
         //Objects
         private Parser parser;
-
-        //Data Properties
-        private string[] asmFile;
  
+        //Constructor
         public AssemblyConductor(string[] newAsmFile)
         {
-            this.asmFile = newAsmFile;
+            this.parser = new Parser(newAsmFile);
         }
 
-        //Getters -- Might not need these.
-        public string[] getAsmFile()
+        //Retrieves Symbol Table
+        public SymbolTable GetSymbolTable()
         {
-            return this.asmFile;
+            return this.parser.GetSymbolTable();
         }
 
-        public SymbolTable getSymbolTable()
+        //Takes the asmFile contents and converts them into the contents of a .hack file.
+        public string[] Assemble()
         {
-            return parser.getSymbolTable();
-        }
-
-        //The main Meat of This Code
-        public string[] assemble()
-        {
-            //[CHECK!] := White Space Filter := Go through the Code and remove blank lines, comments, and white space
-            string[] cleanAsmFile = WhiteSpaceFilter(asmFile);
-
-            parser = new Parser(cleanAsmFile);
-
-            /*[CHECK!] :=Symbol Table Pass Through := Go through the .asm file and find all Labels (label)
-                and place them in symbol table. Remove these lines after processing.*/
+            //Creates the Symbol Table -- Equivalent to the first pass
             parser.ConstructSymbolTable();
+            
 
-            //[ ] := Second Pass (Use the Symbol Table to go through a second time and jump when appropriate)
-
-            //Return the Binary Representation of the .asm file.
-            return SecondPass();
+            //Returns the converted Binary -- For spacing, and readability, this is a method.
+            return ConvertToBindary();
         }
 
-        //Removes all white space, blank lines, and comments from .asm file to produce pure hack assembly.
+        //Parses clean code to produce a binary file by parsing and translating via the CODE and PARSER class
+        private string[] ConvertToBindary()
+        {
+            List<string> binaryConversion = new List<string>();
+            for (int i = 0; i < this.parser.GetAsmFile().Length; i++) //iterate through each line in parser's asmFile.
+            {
+                //Removes white space and in-line comments for current line.
+                this.parser.CleanCurrentLine();
+
+                //Dependent on the command type of the instruction, convert to binary, or continue to next instruction
+                try
+                {
+                    string commandType = this.parser.CommmandType();
+                    if (commandType == "A")
+                    {
+                        try
+                        {
+                            binaryConversion.Add(this.parser.Symbol());
+                        }
+                        catch(IllegalATypeValueException e)
+                        {
+                            binaryConversion.Add(String.Format("Line[{1}]: ERROR -- {0}", e.Message, i+1));
+                        }
+                    }
+                    else if (commandType == "C")
+                    {
+                        try
+                        {
+                            binaryConversion.Add("111" + this.parser.Comp() + this.parser.Dest() + this.parser.Jump());
+                        }
+                        catch (InvalidDestinationException e)
+                        {
+                            binaryConversion.Add(String.Format("Line[{1}]: ERROR -- {0}", e.Message, i + 1));
+                        }
+                        catch (InvalidCompException e)
+                        {
+                            binaryConversion.Add(String.Format("Line[{1}]: ERROR -- {0}", e.Message, i + 1));
+                        }
+                        catch (InvalidJumpException e)
+                        {
+                            binaryConversion.Add(String.Format("Line[{1}]: ERROR -- {0}", e.Message, i + 1));
+                        }
+                    }
+                    else // commandType == "L" or "Comment" or "Empty Line"
+                    {
+                        /* Do nothing ... This will remove the label or comment from the binary
+                         * The Label is already processed by the this.parser.ConstructSymbolTable(), 
+                         * so leave the code be so that errors and warnings make sense.*/
+                    }
+                }
+                //If command type is none of the above, it is an error.
+                catch (InvalidCommandType e) 
+                {
+                    binaryConversion.Add(e.Message);
+                }
+
+                //Checks if there are more commands. If there are not, then break out of the loop.
+                if (this.parser.HasMoreCommands(i))
+                {
+                    this.parser.Advance(i);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            return this.parser.GetWarnings().Concat(binaryConversion).ToArray();
+            //return binaryConversion.ToArray();
+        }
+
+        //END OF FILE
+
+        /// <DEPRECATED CODE GOES BELOW>  ================================================================================
+        /// The Following Code was for old implementations. Left here for documentation purposes, as well as reference.
+        /// </DEPRECATED CODE GOES BELOW> ================================================================================
+
+        /* Deprecated Code. Used to remove all white space before assembling. However, this  
+         * caused warnings to not line up with appropriate code lines in .asm file.*/
+        [Obsolete]
         private string[] WhiteSpaceFilter(string[] asmFileWhite)
         {
             int i = 0;
@@ -72,7 +136,7 @@ namespace cmaftei_Assembler_CS4100
                     continue;
                 }
 
-                if(filteredLine.Contains("/"))
+                if (filteredLine.Contains("/"))
                 {
                     //CITE: This quick way of removing comments was found at:
                     //https://www.codeproject.com/Questions/412064/trim-string-in-csharp-after-specific-character
@@ -85,65 +149,6 @@ namespace cmaftei_Assembler_CS4100
 
             //List is returned as a new array... The index will act as the lines of the cleared.
             return filteredFile.ToArray();
-        }
-
-        //Parses clean code to produce a binary file by parsing and translating via the CODE and PARSER class
-        private string[] SecondPass()
-        {
-            List<string> binaryConversion = new List<string>();
-            for (int i = 0; i < this.parser.getAsmFile().Length; i++) //iterate through each line in parser.
-            {
-                try
-                {
-                    if (this.parser.CommmandType() == "A")
-                    {
-                        try
-                        {
-                            binaryConversion.Add(this.parser.symbol());
-                        }
-                        catch(IllegalATypeValueException e)
-                        {
-                            binaryConversion.Add("Line[" + i +"]: " + e.Message);
-                        }
-                    }
-
-                    if (this.parser.CommmandType() == "C")
-                    {
-                        try
-                        {
-                            binaryConversion.Add("111" + this.parser.comp() + this.parser.dest() + this.parser.jump());
-                        }
-                        catch (InvalidDestinationException e)
-                        {
-                            binaryConversion.Add("Line[" + i + "]: " + e.Message);
-                        }
-                        catch (InvalidCompException e)
-                        {
-                            binaryConversion.Add("Line[" + i + "]: " + e.Message);
-                        }
-                        catch (InvalidJumpException e)
-                        {
-                            binaryConversion.Add("Line[" + i + "]: " + e.Message);
-                        }
-                    }
-                }
-                catch (InvalidCommandType e)
-                {
-                    binaryConversion.Add("Line[" + i + "]: " + e.Message);
-                }
-
-                //Checks if there are more commands. If there are not, then break out of the loop.
-                if (this.parser.hasMoreCommands(i))
-                {
-                    this.parser.advance(i);
-                }
-                else
-                {
-                    break;
-                }
-            }
-            return this.parser.getWarnings().Concat(binaryConversion).ToArray();
-            //return binaryConversion.ToArray();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace cmaftei_Assembler_CS4100
         }
 
         public InvalidDestinationException(string name)
-        : base(String.Format("Invalid Destination Name: {0}. Valid Destinations are: D, A, or M.", name))
+        : base(String.Format("Invalid Destination Name: {0}.", name))
         {
 
         }

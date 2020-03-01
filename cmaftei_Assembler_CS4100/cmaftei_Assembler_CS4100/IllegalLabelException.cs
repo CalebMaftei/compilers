@@ -14,8 +14,8 @@ namespace cmaftei_Assembler_CS4100
 
         }
 
-        public IllegalLabelException(string command)
-        : base(String.Format("Illegal Label: {0}. There should not exist any non-commented text following a label.", command))
+        public IllegalLabelException(string command, int line)
+        : base(String.Format("Line[{1}]: ERROR -- Illegal Label: {0}. There should not exist any non-commented text following a label.", command, line))
         {
 
         }
