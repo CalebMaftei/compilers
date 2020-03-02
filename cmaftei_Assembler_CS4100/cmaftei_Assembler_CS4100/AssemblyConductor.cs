@@ -29,7 +29,6 @@ namespace cmaftei_Assembler_CS4100
         {
             //Creates the Symbol Table -- Equivalent to the first pass
             parser.ConstructSymbolTable();
-            
 
             //Returns the converted Binary -- For spacing, and readability, this is a method.
             return ConvertToBindary();
