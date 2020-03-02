@@ -83,8 +83,57 @@ namespace cmaftei_Assembler_CS4100
             this.compDictionary.Add("D|M", "1 0101 01"); //a=1
             this.compDictionary.Add("M|D", "1 0101 01"); //a=1
 
-            //Extended Libraries
-            //INSERT ALL NEW COMPS HERE.
+            //Extended Command Library
+            this.compDictionary.Add("!D&A", "0 0100 00");
+            this.compDictionary.Add("!D&M", "1 0100 00"); //a=1
+            this.compDictionary.Add("A&!D", "0 0100 00");
+            this.compDictionary.Add("M&!D", "1 0100 00"); //a=1
+
+            this.compDictionary.Add("D&!A", "0 0001 00");
+            this.compDictionary.Add("D&!M", "1 0001 00"); //a=1
+            this.compDictionary.Add("!A&D", "0 0001 00");
+            this.compDictionary.Add("!M&D", "1 0001 00"); //a=1
+
+            this.compDictionary.Add("!D&!A", "0 0101 00");
+            this.compDictionary.Add("!D&!M", "1 0101 00"); //a=1
+            this.compDictionary.Add("!A&!D", "0 0101 00");
+            this.compDictionary.Add("!M&!D", "1 0101 00"); //a=1
+
+            this.compDictionary.Add("!(D&A)", "0 0000 01");
+            this.compDictionary.Add("!(D&M)", "1 0000 01"); //a=1
+            this.compDictionary.Add("!(A&D)", "0 0000 01");
+            this.compDictionary.Add("!(M&D)", "1 0000 01"); //a=1
+
+            this.compDictionary.Add("!(!D&A)", "0 0100 01");
+            this.compDictionary.Add("!(!D&M)", "1 0100 01"); //a=1
+            this.compDictionary.Add("!(A&!D)", "0 0100 01");
+            this.compDictionary.Add("!(M&!D)", "1 0100 01"); //a=1
+
+            this.compDictionary.Add("!(D&!A)", "0 0001 01");
+            this.compDictionary.Add("!(D&!M)", "1 0001 01"); //a=1
+            this.compDictionary.Add("!(!A&D)", "0 0001 01");
+            this.compDictionary.Add("!(!M&D)", "1 0001 01"); //a=1
+
+            this.compDictionary.Add("!(!D&!A)", "0 0101 01");
+            this.compDictionary.Add("!(!D&!M)", "1 0101 01"); //a=1
+            this.compDictionary.Add("!(!A&!D)", "0 0101 01");
+            this.compDictionary.Add("!(!M&!D)", "1 0101 01"); //a=1
+
+            this.compDictionary.Add("!D|A", "0 0001 01");
+            this.compDictionary.Add("!D|M", "1 0001 01"); //a=1
+            this.compDictionary.Add("!A|D", "0 0001 01");
+            this.compDictionary.Add("M|!D", "1 0001 01"); //a=1
+
+            this.compDictionary.Add("D|!A", "0 0100 01");
+            this.compDictionary.Add("D|!M", "1 0100 01"); //a=1
+            this.compDictionary.Add("!A|D", "0 0100 01");
+            this.compDictionary.Add("!M|D", "1 0100 01"); //a=1
+
+            this.compDictionary.Add("!D|!A", "0 0000 01");       //same as !(D&A)
+            this.compDictionary.Add("!(D|A)", "0 0101 00");
+            this.compDictionary.Add("!(!D|A)", "0 0001 00");
+            this.compDictionary.Add("!(D|!A)", "0 0100 00");
+            this.compDictionary.Add("!(!D|!A)", "0 0000 00");
         }
         
         //based on the mneumonic passed in, this looks through all possible values. If it doesn't exist, it throws an error.
